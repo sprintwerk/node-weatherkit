@@ -2,9 +2,8 @@
   "name": "@sprintwerk/node-weatherkit",
   "version": "1.0.0-beta.1",
   "description": "Apple WeatherKit client for NodeJS",
-  "type": "module",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "files": [
     "dist",
     "README.md"
@@ -15,7 +14,7 @@
     "lint": "eslint . --ext .ts",
     "prepare": "npm run build",
     "clean": "rimraf dist",
-    "example": "npm run build && node --experimental-specifier-resolution=node dist/examples/basic.js"
+    "example": "npm run build && node dist/examples/basic.js"
   },
   "repository": {
     "type": "git",

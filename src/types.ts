@@ -3,6 +3,7 @@ export interface WeatherKitConfig {
   teamId: string;
   serviceId: string;
   privateKey: string;
+  enableCapacitorPluginSchema?: boolean;
 }
 
 export interface Location {
@@ -14,9 +15,22 @@ export interface WeatherRequest extends Location {
   dataSets?: WeatherDataSet[];
   currentAsOf?: string;
   timezone?: string;
+  language?: string;
 }
 
 export type WeatherDataSet = 'currentWeather' | 'forecastDaily' | 'forecastHourly' | 'forecastNextHour' | 'weatherAlerts';
+
+export interface WeatherMetadata {
+  attributionURL: string;
+  expireTime: string;
+  latitude: number;
+  longitude: number;
+  readTime: string;
+  reportedTime: string;
+  units: string;
+  version: number;
+  sourceType: string;
+}
 
 export interface Temperature {
   value: number;
@@ -37,19 +51,26 @@ export interface Wind {
 }
 
 export interface CurrentWeather {
+  metadata: WeatherMetadata;
   asOf: string;
   cloudCover: number;
+  cloudCoverLowAltPct: number;
+  cloudCoverMidAltPct: number;
+  cloudCoverHighAltPct: number;
   conditionCode: string;
   daylight: boolean;
   humidity: number;
-  precipitation: Precipitation;
+  precipitationIntensity: number;
   pressure: number;
   pressureTrend: 'rising' | 'falling' | 'steady';
-  temperature: Temperature;
-  temperatureApparent: Temperature;
+  temperature: number;
+  temperatureApparent: number;
+  temperatureDewPoint: number;
   uvIndex: number;
   visibility: number;
-  wind: Wind;
+  windDirection: number;
+  windGust: number;
+  windSpeed: number;
 }
 
 export interface DayWeatherCondition {
@@ -95,27 +116,22 @@ export interface WeatherAlert {
   urgency: 'immediate' | 'expected' | 'future';
 }
 
-export interface WeatherResponse {
-  currentWeather: {
-    temperature: number;
-    temperatureApparent: number;
-    humidity: number;
-    pressure: number;
-    windSpeed: number;
-    windDirection: number;
-    windGust?: number;
-    uvIndex: number;
-    visibility: number;
-    cloudCover: number;
-    conditionCode: string;
-    daylight: boolean;
-  };
-  forecastDaily?: {
-    days: DayForecast[];
-  };
-  forecastHourly?: {
-    hours: HourForecast[];
-  };
+export interface DayPartForecast {
+  forecastStart: string;
+  forecastEnd: string;
+  cloudCover: number;
+  conditionCode: string;
+  humidity: number;
+  precipitationAmount: number;
+  precipitationChance: number;
+  precipitationType: string;
+  snowfallAmount: number;
+  temperatureMax: number;
+  temperatureMin: number;
+  windDirection: number;
+  windGustSpeedMax: number;
+  windSpeed: number;
+  windSpeedMax: number;
 }
 
 export interface DayForecast {
@@ -123,15 +139,29 @@ export interface DayForecast {
   forecastEnd: string;
   conditionCode: string;
   maxUvIndex: number;
-  temperatureMax: number;
-  temperatureMin: number;
-  precipitationChance: number;
-  snowfallAmount?: number;
-  moonPhase?: string;
+  moonPhase: string;
   moonrise?: string;
   moonset?: string;
+  precipitationAmount: number;
+  precipitationChance: number;
+  precipitationType: string;
+  snowfallAmount: number;
+  solarMidnight?: string;
+  solarNoon?: string;
   sunrise?: string;
+  sunriseCivil?: string;
+  sunriseNautical?: string;
   sunset?: string;
+  sunsetCivil?: string;
+  sunsetNautical?: string;
+  temperatureMax: number;
+  temperatureMin: number;
+  windGustSpeedMax: number;
+  windSpeedAvg: number;
+  windSpeedMax: number;
+  daytimeForecast?: DayPartForecast;
+  overnightForecast?: DayPartForecast;
+  restOfDayForecast?: DayPartForecast;
 }
 
 export interface HourForecast {
@@ -148,6 +178,18 @@ export interface HourForecast {
   cloudCover: number;
   conditionCode: string;
   precipitationChance: number;
+}
+
+export interface WeatherResponse {
+  currentWeather?: CurrentWeather;
+  forecastDaily?: {
+    metadata: WeatherMetadata;
+    days: DayForecast[];
+  };
+  forecastHourly?: {
+    metadata: WeatherMetadata;
+    hours: HourForecast[];
+  };
 }
 
 export interface ForecastResponse {

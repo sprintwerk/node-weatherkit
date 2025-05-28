@@ -6,7 +6,16 @@ import type {
   WeatherResponse,
   Location,
   WeatherDataSet
-} from './types.js';
+} from './types';
+import { transformToCapacitorSchema } from './transformers/capacitor';
+
+interface WeatherKitConfig {
+  keyId: string;
+  teamId: string;
+  serviceId: string;
+  privateKey: string;
+  enableCapacitorPluginSchema?: boolean;
+}
 
 export class WeatherKitClient {
   private readonly keyId: string;
@@ -17,17 +26,14 @@ export class WeatherKitClient {
   private readonly defaultTimezone = 'Etc/UTC';
   private readonly defaultLanguage = 'en';
   private readonly defaultDataSets: WeatherDataSet[] = ['currentWeather', 'forecastDaily'];
+  private readonly enableCapacitorPluginSchema: boolean;
 
-  constructor(config: {
-    keyId: string;
-    teamId: string;
-    serviceId: string;
-    privateKey: string;
-  }) {
+  constructor(config: WeatherKitConfig) {
     this.keyId = config.keyId;
     this.teamId = config.teamId;
     this.serviceId = config.serviceId;
     this.privateKey = config.privateKey;
+    this.enableCapacitorPluginSchema = config.enableCapacitorPluginSchema ?? false;
   }
 
   private generateToken(): string {
@@ -63,7 +69,13 @@ export class WeatherKitClient {
       throw new Error(`WeatherKit API error: ${response.statusText}`);
     }
 
-    return response.json() as Promise<T>;
+    const data = await response.json() as T;
+
+    if (this.enableCapacitorPluginSchema) {
+      return transformToCapacitorSchema(data);
+    }
+
+    return data;
   }
 
   public async getWeather(
