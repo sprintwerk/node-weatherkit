@@ -1,0 +1,62 @@
+# Source files
+src/
+examples/
+tests/
+
+# Development configs
+.eslintrc.json
+.eslintignore
+.prettierrc
+.prettierignore
+.editorconfig
+jest.config.js
+tsconfig.json
+
+# Git files
+.git/
+.gitignore
+.github/
+
+# IDE and editor files
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# Test files and coverage
+__tests__/
+__mocks__/
+coverage/
+*.test.ts
+*.spec.ts
+
+# TypeScript cache
+*.tsbuildinfo
+
+# Documentation files
+docs/
+*.md
+!README.md
+
+# CI/CD
+.travis.yml
+.circleci/
+.gitlab-ci.yml
+azure-pipelines.yml
+
+# Development tools
+nodemon.json
+.nvmrc 
