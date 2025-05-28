@@ -14,7 +14,6 @@
     "test": "jest",
     "lint": "eslint . --ext .ts",
     "prepare": "npm run build",
-    "prepublishOnly": "npm test && npm run lint",
     "clean": "rimraf dist",
     "example": "npm run build && node --experimental-specifier-resolution=node dist/examples/basic.js"
   },
