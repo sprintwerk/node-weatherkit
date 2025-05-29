@@ -1,6 +1,6 @@
 {
   "name": "@sprintwerk/node-weatherkit",
-  "version": "1.0.0-beta.3",
+  "version": "1.0.0",
   "description": "Apple WeatherKit client for NodeJS",
   "main": "./dist/src/index.js",
   "types": "./dist/src/index.d.ts",
